@@ -10,28 +10,34 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ProfileSelectControl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ProfileSelectControl">
    <children>
-      <GridPane alignment="center" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane alignment="center" hgap="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <rowConstraints>
             <RowConstraints />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" />
             <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
          </rowConstraints>
          <columnConstraints>
-            <ColumnConstraints />
+            <ColumnConstraints minWidth="-Infinity" prefWidth="205.0" />
             <ColumnConstraints />
          </columnConstraints>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Grades Manager!" />
-            <ListView fx:id="profileListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
-            <Label text="Select a profile:" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#SelectProfile" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Create a new profile:" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
-            <TextField fx:id="newProfileNameField" GridPane.rowIndex="4" />
-            <Button mnemonicParsing="false" onAction="#CreatePressed" text="Create" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ListView fx:id="profileListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
+            <Label text="Select a profile:" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#SelectProfile" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Create a new profile:" GridPane.columnSpan="2147483647" GridPane.rowIndex="6" />
+            <TextField fx:id="newProfileNameField" GridPane.rowIndex="7" />
+            <Button mnemonicParsing="false" onAction="#CreatePressed" text="Create" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Text fx:id="selectProfileErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="4" />
+            <Text fx:id="createProfileErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="8" />
          </children>
       </GridPane>
    </children>

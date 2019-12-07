@@ -12,11 +12,13 @@ public class Database {
     private static final String getProfileListSql = "SELECT * FROM Profile;";
     private static PreparedStatement getProfileListStatement;
 
-    static {
+    public static void openConnection() throws SQLNonTransientConnectionException{
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/GradesManagerDB", "root", "gmDB");
             createProfileStatement = connection.prepareStatement(createProfileSql);
             getProfileListStatement = connection.prepareStatement(getProfileListSql);
+        } catch (SQLNonTransientConnectionException e) {
+            throw new SQLNonTransientConnectionException();
         } catch (SQLException e) {
             System.err.println("Database connection error");
             e.printStackTrace();
@@ -33,15 +35,17 @@ public class Database {
         }
     }
 
-    public static boolean createProfile(String pName) {
+    public static boolean createProfile(String pName) throws SQLIntegrityConstraintViolationException {
         try {
             createProfileStatement.setString(1, pName);
             int n = createProfileStatement.executeUpdate();
             //System.out.println("Profile Created: " + n);
             return true;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new SQLIntegrityConstraintViolationException();
         } catch (SQLException e) {
             System.err.println("Error executing statement: createProfile");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return false;
     }
