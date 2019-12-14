@@ -38,8 +38,7 @@ public class Database {
     public static boolean createProfile(String pName) throws SQLIntegrityConstraintViolationException {
         try {
             createProfileStatement.setString(1, pName);
-            int n = createProfileStatement.executeUpdate();
-            //System.out.println("Profile Created: " + n);
+            createProfileStatement.executeUpdate();
             return true;
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new SQLIntegrityConstraintViolationException();

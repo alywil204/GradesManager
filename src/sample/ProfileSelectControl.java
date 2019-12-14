@@ -4,10 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 
+import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
@@ -23,7 +29,7 @@ public class ProfileSelectControl {
     private Text createProfileErrorText;
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         updateProfileList();
     }
 
@@ -40,9 +46,12 @@ public class ProfileSelectControl {
 
     @FXML
     public void SelectProfile(ActionEvent event) {
-        if (profileListView.getSelectionModel().getSelectedItem() == null) {
+        Profile selected = profileListView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
             selectProfileErrorText.setText("Please select a profile to open");
+            return;
         }
+        Main.courseSelectUseCase(selected);
     }
 
     @FXML
