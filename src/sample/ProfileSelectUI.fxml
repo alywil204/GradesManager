@@ -12,21 +12,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ProfileSelectControl">
    <children>
-      <GridPane alignment="center" hgap="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane alignment="center" hgap="50.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <rowConstraints>
-            <RowConstraints />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="16.0" />
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="17.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="16.0" />
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="17.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="16.0" />
          </rowConstraints>
          <columnConstraints>
-            <ColumnConstraints minWidth="-Infinity" prefWidth="205.0" />
-            <ColumnConstraints />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+            <ColumnConstraints maxWidth="-Infinity" minWidth="-Infinity" prefWidth="51.0" />
          </columnConstraints>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Grades Manager!" />

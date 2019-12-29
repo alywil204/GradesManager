@@ -14,6 +14,8 @@ public class Main extends Application {
 
     private static Stage primaryStage;
 
+    private static Profile selected;
+
     @Override
     public void start(Stage primaryStage) {
         Main.primaryStage = primaryStage;
@@ -69,6 +71,29 @@ public class Main extends Application {
             root = new AnchorPane();
             root.setPrefSize(800, 600);
             Text text = new Text("Could not load course select ui.");
+            root.getChildren().add(text);
+            AnchorPane.setTopAnchor(text, 0.0);
+            AnchorPane.setLeftAnchor(text, 0.0);
+        }
+        primaryStage.setScene(new Scene(root, root.getPrefWidth(), root.getPrefHeight()));
+        Main.selected = selected;
+    }
+
+    public static void returnToCourseSelect() {
+        courseSelectUseCase(selected);
+    }
+    
+    public static void createCourseUseCase() {
+        AnchorPane root;
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("CourseCreateUI.fxml"));
+            loader.setControllerFactory(aClass -> new CourseCreateControl(selected.getPId()));
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            root = new AnchorPane();
+            root.setPrefSize(800, 600);
+            Text text = new Text("Could not load course create ui.");
             root.getChildren().add(text);
             AnchorPane.setTopAnchor(text, 0.0);
             AnchorPane.setLeftAnchor(text, 0.0);

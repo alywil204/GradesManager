@@ -2,10 +2,16 @@ package sample;
 
 public class Profile {
 
+    private int pId;
     private String pName;
 
-    public Profile(String pName) {
+    public Profile(int pId, String pName) {
+        this.pId = pId;
         this.pName = pName;
+    }
+
+    public int getPId() {
+        return pId;
     }
 
     public String getPName() {
