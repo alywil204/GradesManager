@@ -300,6 +300,7 @@ public class CourseCreateControl {
         else if (checkUniqueCategoryName(categoryName)) {
             newCategoryErrorText.setText("");
             categories.add(new CourseCategory(categoryName));
+            categoryNameField.setText("");
         }
         else {
             newCategoryErrorText.setText("Name conflicts with existing");
@@ -346,7 +347,12 @@ public class CourseCreateControl {
             anyError = true;
         }
         if (!anyError) {
-
+            boolean success = Database.createCourse(pId, cName, grades.get(0).getLimit(), grades.get(1).getLimit(), grades.get(2).getLimit(), grades.get(3).getLimit(), grades.get(4).getLimit(), grades.get(5).getLimit(), grades.get(6).getLimit(), grades.get(7).getLimit(), grades.get(8).getLimit(), categories);
+            if (!success) {
+                createCourseErrorText.setText("Database error.");
+            } else {
+                Main.returnToCourseSelect();
+            }
         }
     }
 
