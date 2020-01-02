@@ -15,6 +15,11 @@ public class CourseCategory {
         this.percentage = new SimpleDoubleProperty(0);
     }
 
+    public CourseCategory(String title, float percentage) {
+        this.title = new SimpleStringProperty(title);
+        this.percentage = new SimpleDoubleProperty(percentage);
+    }
+
     public void setTitle(String title) {
         this.title.set(title);
     }
@@ -33,5 +38,9 @@ public class CourseCategory {
     }
     public DoubleProperty percentageProperty() {
         return percentage;
+    }
+
+    public String toString() {
+        return getTitle();
     }
 }

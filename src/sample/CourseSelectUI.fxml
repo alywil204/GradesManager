@@ -33,10 +33,10 @@
             <Label text="Select a course:" GridPane.rowIndex="2" />
             <ListView fx:id="courseNameList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
             <Text fx:id="errorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="4" />
-            <Button mnemonicParsing="false" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#SelectCourse" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Button mnemonicParsing="false" onAction="#CreateCourse" text="Create A New Course" GridPane.rowIndex="7" />
             <Label text="or:" GridPane.rowIndex="6" />
-            <Button mnemonicParsing="false" onAction="#Return" text="Return" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Button mnemonicParsing="false" onAction="#ReturnPressed" text="Return" GridPane.columnIndex="1" GridPane.rowIndex="9" />
          </children>
       </GridPane>
    </children>

@@ -38,12 +38,23 @@ public class CourseSelectControl {
     }
 
     @FXML
+    private void SelectCourse(ActionEvent event) {
+        String selected = courseNameList.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            errorText.setText("Please select a course to open");
+            return;
+        }
+        Course course = Database.getCourse(profile.getPId(), selected);
+        Main.mainCourseUseCase(course);
+    }
+
+    @FXML
     public void CreateCourse(ActionEvent event) {
         Main.createCourseUseCase();
     }
 
     @FXML
-    private void Return() {
+    private void ReturnPressed() {
         Main.returnToProfileSelect();
     }
 }

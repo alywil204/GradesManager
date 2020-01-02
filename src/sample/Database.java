@@ -15,12 +15,16 @@ public class Database {
     private static PreparedStatement checkCourseNameInUseStatement;
     private static final String createCourseSql = "INSERT INTO Course (CProfileId, CName, AplusGrade, AGrade, AminusGrade, BplusGrade, BGrade, BminusGrade, CplusGrade, CGrade, DGrade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static PreparedStatement createCourseStatement;
-    private static final String retrieveNewCourseIdSql = "SELECT CId FROM Course WHERE (CProfileId = ? AND CName = ?)";
-    private static PreparedStatement retrieveNewCourseIdStatement;
+    //private static final String retrieveNewCourseIdSql = "SELECT CId FROM Course WHERE (CProfileId = ? AND CName = ?)";
+    //private static PreparedStatement retrieveNewCourseIdStatement;
     private static final String createCourseCategorySql = "INSERT INTO CourseCategory (CatCourseId, CatName, Percentage) VALUES (?, ?, ?);";
     private static PreparedStatement createCourseCategoryStatement;
     private static final String getProfileCourseListSql = "SELECT CName FROM Course WHERE (CProfileId = ?)";
     private static PreparedStatement getProfileCourseListStatement;
+    private static final String getCourseSql = "SELECT * FROM Course WHERE (CProfileId = ? AND CName = ?)";
+    private static PreparedStatement getCourseStatement;
+    private static final String getCourseCategoryListSql = "SELECT * FROM CourseCategory WHERE (CatCourseId = ?)";
+    private static PreparedStatement getCourseCategoryListStatement;
 
     public static void openConnection() throws SQLNonTransientConnectionException{
         try {
@@ -30,8 +34,10 @@ public class Database {
             checkCourseNameInUseStatement = connection.prepareStatement(checkCourseNameInUseSql);
             createCourseStatement = connection.prepareStatement(createCourseSql);
             createCourseCategoryStatement = connection.prepareStatement(createCourseCategorySql);
-            retrieveNewCourseIdStatement = connection.prepareStatement(retrieveNewCourseIdSql);
+            //retrieveNewCourseIdStatement = connection.prepareStatement(retrieveNewCourseIdSql);
             getProfileCourseListStatement = connection.prepareStatement(getProfileCourseListSql);
+            getCourseStatement = connection.prepareStatement(getCourseSql);
+            getCourseCategoryListStatement = connection.prepareStatement(getCourseCategoryListSql);
         } catch (SQLNonTransientConnectionException e) {
             throw new SQLNonTransientConnectionException();
         } catch (SQLException e) {
@@ -114,9 +120,12 @@ public class Database {
             createCourseStatement.setFloat(10, (float)CGrade);
             createCourseStatement.setFloat(11, (float)DGrade);
             createCourseStatement.executeUpdate();
-            retrieveNewCourseIdStatement.setInt(1, pId);
-            retrieveNewCourseIdStatement.setString(2, cName);
-            ResultSet rs = retrieveNewCourseIdStatement.executeQuery();
+            //retrieveNewCourseIdStatement.setInt(1, pId);
+            //retrieveNewCourseIdStatement.setString(2, cName);
+            //ResultSet rs = retrieveNewCourseIdStatement.executeQuery();
+            getCourseStatement.setInt(1, pId);
+            getCourseStatement.setString(2, cName);
+            ResultSet rs = getCourseStatement.executeQuery();
             int cId;
             if (rs.next()) {
                 cId = rs.getInt("CId");
@@ -151,6 +160,43 @@ public class Database {
         } catch (SQLException e) {
             System.err.println("Error executing statement: getCourseList");
             //e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Course getCourse(int pId, String cName) {
+        Course course = null;
+        try {
+            getCourseStatement.setInt(1, pId);
+            getCourseStatement.setString(2, cName);
+            ResultSet rs = getCourseStatement.executeQuery();
+            while (rs.next()) {
+                int cId = rs.getInt("CId");
+                cName = rs.getString("CName");
+                float AplusGrade = rs.getFloat("AplusGrade");
+                float AGrade = rs.getFloat("AGrade");
+                float AminusGrade = rs.getFloat("AminusGrade");
+                float BplusGrade = rs.getFloat("BplusGrade");
+                float BGrade = rs.getFloat("BGrade");
+                float BminusGrade = rs.getFloat("BminusGrade");
+                float CplusGrade = rs.getFloat("CplusGrade");
+                float CGrade = rs.getFloat("CGrade");
+                float DGrade = rs.getFloat("DGrade");
+                getCourseCategoryListStatement.setInt(1, cId);
+                ResultSet categoryrs = getCourseCategoryListStatement.executeQuery();
+                List<CourseCategory> categories = new ArrayList<>();
+                while (categoryrs.next()) {
+                    String catName = categoryrs.getString("CatName");
+                    float percentage = categoryrs.getFloat("Percentage");
+                    categories.add(new CourseCategory(catName, percentage));
+                }
+                course = new Course(cId, cName, AplusGrade, AGrade, AminusGrade, BplusGrade, BGrade, BminusGrade,
+                        CplusGrade, CGrade, DGrade, categories);
+            }
+            return course;
+        } catch (SQLException e) {
+            System.err.println("Error executing statement: getCourse");
+            e.printStackTrace();
             return null;
         }
     }

@@ -32,7 +32,7 @@ public class Main extends Application {
             root.getChildren().add(text);
             AnchorPane.setTopAnchor(text, 0.0);
             AnchorPane.setLeftAnchor(text, 0.0);
-            primaryStage.setScene(new Scene(root, root.getPrefWidth(), root.getPrefHeight()));
+            primaryStage.setScene(new Scene(root));
         }
         primaryStage.show();
     }
@@ -53,7 +53,8 @@ public class Main extends Application {
             AnchorPane.setTopAnchor(text, 0.0);
             AnchorPane.setLeftAnchor(text, 0.0);
         }
-        primaryStage.setScene(new Scene(root, root.getPrefWidth(), root.getPrefHeight()));
+        primaryStage.setScene(new Scene(root));
+        selected = null;
     }
 
     public static void returnToProfileSelect() {
@@ -75,7 +76,7 @@ public class Main extends Application {
             AnchorPane.setTopAnchor(text, 0.0);
             AnchorPane.setLeftAnchor(text, 0.0);
         }
-        primaryStage.setScene(new Scene(root, root.getPrefWidth(), root.getPrefHeight()));
+        primaryStage.setScene(new Scene(root));
         Main.selected = selected;
     }
 
@@ -98,6 +99,24 @@ public class Main extends Application {
             AnchorPane.setTopAnchor(text, 0.0);
             AnchorPane.setLeftAnchor(text, 0.0);
         }
-        primaryStage.setScene(new Scene(root, root.getPrefWidth(), root.getPrefHeight()));
+        primaryStage.setScene(new Scene(root));
+    }
+
+    public static void mainCourseUseCase(Course course) {
+        AnchorPane root;
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("CourseUI.fxml"));
+            loader.setControllerFactory(aClass -> new CourseControl(selected, course));
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            root = new AnchorPane();
+            root.setPrefSize(800, 600);
+            Text text = new Text("Could not load main course ui.");
+            root.getChildren().add(text);
+            AnchorPane.setTopAnchor(text, 0.0);
+            AnchorPane.setLeftAnchor(text, 0.0);
+        }
+        primaryStage.setScene(new Scene(root));
     }
 }
