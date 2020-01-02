@@ -42,7 +42,7 @@
             <TableView fx:id="categoryTable" prefWidth="353.0" GridPane.columnSpan="4" GridPane.rowIndex="2">
               <columns>
                 <TableColumn fx:id="categoryColumn" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Category" />
-                <TableColumn fx:id="percentageColumn" text="Percentage" />
+                <TableColumn fx:id="percentageColumn" text="Weight" />
                   <TableColumn fx:id="deleteColumn" prefWidth="58.0" sortable="false" />
               </columns>
             </TableView>
