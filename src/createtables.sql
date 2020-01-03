@@ -36,7 +36,28 @@ CREATE TABLE CourseCategory (
     CatCourseId MEDIUMINT NOT NULL,
     CatName VARCHAR(60) NOT NULL,
     Percentage FLOAT NOT NULL,
+    CatType ENUM('Single Grade', 'Multiple Grade'),
 
     FOREIGN KEY (CatCourseId) REFERENCES Course(CId),
-    CHECK (Percentage > 0 AND Percentage <= 100)
+    CHECK (Percentage > 0)
+);
+
+CREATE TABLE CategoryPoints (
+    CatId MEDIUMINT UNIQUE NOT NULL,
+    MaxPoints SMALLINT,
+    Points SMALLINT,
+
+    FOREIGN KEY (CatId) REFERENCES CourseCategory(CatId),
+    CHECK (MaxPoints > 0 AND Points > 0)
+);
+
+CREATE TABLE CategoryAssignments (
+    CatId MEDIUMINT NOT NULL,
+    AName VARCHAR(60) NOT NULL,
+    MaxPoints SMALLINT,
+    Points SMALLINT,
+    Weight FLOAT,
+
+    FOREIGN KEY (CatId) REFERENCES CourseCategory(CatId),
+    CHECK (MaxPoints > 0 AND Points > 0 AND Weight > 0)
 );
