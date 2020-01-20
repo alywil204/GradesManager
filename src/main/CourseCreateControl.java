@@ -1,4 +1,4 @@
-package sample;
+package main;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;

@@ -1,4 +1,4 @@
-package sample;
+package main;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -70,7 +70,6 @@ public class CourseControl {
     private void initialize() {
         profileText.setText(profile.getPName());
         courseText.setText(course.getCName());
-
 
         ObservableList<CourseCategory> observableCategoryList = FXCollections.observableList(course.getCategories());
         categoryNameColumn.setCellValueFactory(courseCategoryStringCellDataFeatures -> courseCategoryStringCellDataFeatures.getValue().titleProperty());

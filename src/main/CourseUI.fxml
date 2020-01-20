@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.CourseControl">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CourseControl">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -84,7 +84,7 @@
                   <Insets left="72.0" />
                </GridPane.margin>
             </Spinner>
-            <TableView fx:id="assignmentTable" prefHeight="200.0" prefWidth="200.0" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.rowSpan="2">
+            <TableView fx:id="assignmentTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="14" GridPane.rowSpan="2">
               <columns>
                 <TableColumn prefWidth="200.0" text="Assignment Name" />
                 <TableColumn prefWidth="77.0" text="Max Points" />
@@ -92,13 +92,13 @@
                   <TableColumn prefWidth="76.0" text="Weight" />
               </columns>
             </TableView>
-            <TextField fx:id="assignmentNameField" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="16">
+            <TextField fx:id="assignmentNameField" GridPane.columnSpan="2" GridPane.rowIndex="16">
                <GridPane.margin>
                   <Insets left="110.0" right="114.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="addAssignmentButton" mnemonicParsing="false" text="Add Assignment" visible="false" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16" />
-            <Label fx:id="assignmentNameLabel" text="Assignment Name:" visible="false" GridPane.rowIndex="16" />
+            <Button fx:id="addAssignmentButton" mnemonicParsing="false" text="Add Assignment" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16" />
+            <Label fx:id="assignmentNameLabel" text="Assignment Name:" GridPane.rowIndex="16" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A+" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A" GridPane.columnIndex="3" GridPane.rowIndex="3" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A-" GridPane.columnIndex="3" GridPane.rowIndex="4" />
@@ -131,6 +131,7 @@
             <Text fx:id="CplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="8" />
             <Text fx:id="CText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="9" />
             <Text fx:id="DText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+            <Button mnemonicParsing="false" text="Save Info" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
          </children>
       </GridPane>
    </children>
