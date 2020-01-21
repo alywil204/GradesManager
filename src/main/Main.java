@@ -38,7 +38,9 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+	System.out.println("GOTTEM");
+	System.out.println("BEEZZ NUTS");	
+	    launch(args);
     }
 
     public static void profileSelectUseCase() {
