@@ -30,12 +30,20 @@ public class GradeLimit {
     public enum Grade {
         Aplus, A, Aminus, Bplus, B, Bminus, Cplus, C, D, F;
         public String toString() {
-            if (this == Aplus) return "A+";
-            if (this == Aminus) return "A-";
-            if (this == Bplus) return "B+";
-            if (this == Bminus) return "B-";
-            if (this == Cplus) return "C+";
-            return super.toString();
+            switch(this) {
+                case Aplus:
+                    return "A+";
+                case Aminus:
+                    return "A-";
+                case Bplus:
+                    return "B-";
+                case Bminus:
+                    return "B-";
+                case Cplus:
+                    return "C+";
+                default:
+                    return super.toString();
+            }
         }
     }
 }
