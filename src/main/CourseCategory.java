@@ -1,46 +1,30 @@
 package main;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class CourseCategory {
 
-    private StringProperty title;
-    private DoubleProperty percentage;
+    private final int catId;
+    private final String catName;
+    private final float catWeight;
 
-    public CourseCategory(String title) {
-        this.title = new SimpleStringProperty(title);
-        this.percentage = new SimpleDoubleProperty(0);
-    }
-
-    public CourseCategory(String title, float percentage) {
-        this.title = new SimpleStringProperty(title);
-        this.percentage = new SimpleDoubleProperty(percentage);
+    public CourseCategory(int catId, String catName, float catWeight) {
+        this.catId = catId;
+        this.catName = catName;
+        this.catWeight = catWeight;
     }
 
-    public void setTitle(String title) {
-        this.title.set(title);
-    }
-    public String getTitle() {
-        return title.get();
-    }
-    public StringProperty titleProperty() {
-        return title;
+    public int getCatId() {
+        return catId;
     }
 
-    public void setPercentage(double percentage) {
-        this.percentage.set(percentage);
+    public String getCatName() {
+        return catName;
     }
-    public double getPercentage() {
-        return percentage.get();
-    }
-    public DoubleProperty percentageProperty() {
-        return percentage;
+
+    public float getCatWeight() {
+        return catWeight;
     }
 
     public String toString() {
-        return getTitle();
+        return getCatName();
     }
 }

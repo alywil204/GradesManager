@@ -15,15 +15,17 @@ public class Database {
     private static PreparedStatement checkCourseNameInUseStatement;
     private static final String createCourseSql = "INSERT INTO Course (CProfileId, CName, AplusGrade, AGrade, AminusGrade, BplusGrade, BGrade, BminusGrade, CplusGrade, CGrade, DGrade) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static PreparedStatement createCourseStatement;
-    //private static final String retrieveNewCourseIdSql = "SELECT CId FROM Course WHERE (CProfileId = ? AND CName = ?)";
-    //private static PreparedStatement retrieveNewCourseIdStatement;
-    private static final String createCourseCategorySql = "INSERT INTO CourseCategory (CatCourseId, CatName, Percentage) VALUES (?, ?, ?);";
+    private static final String createCourseCategorySql = "INSERT INTO CourseCategory (CatCourseId, CatName, CatWeight) VALUES (?, ?, ?);";
     private static PreparedStatement createCourseCategoryStatement;
-    private static final String getProfileCourseListSql = "SELECT CName FROM Course WHERE (CProfileId = ?)";
+    private static final String updateCourseCategorySql = "UPDATE CourseCategory SET CatName = ?, CatWeight = ? WHERE (CatId = ?);";
+    private static PreparedStatement updateCourseCategoryStatement;
+    private static final String deleteCourseCategorySql = "DELETE FROM CourseCategory WHERE (CatId = ?);";
+    private static PreparedStatement deleteCourseCategoryStatement;
+    private static final String getProfileCourseListSql = "SELECT CName FROM Course WHERE (CProfileId = ?);";
     private static PreparedStatement getProfileCourseListStatement;
-    private static final String getCourseSql = "SELECT * FROM Course WHERE (CProfileId = ? AND CName = ?)";
+    private static final String getCourseSql = "SELECT * FROM Course WHERE (CProfileId = ? AND CName = ?);";
     private static PreparedStatement getCourseStatement;
-    private static final String getCourseCategoryListSql = "SELECT * FROM CourseCategory WHERE (CatCourseId = ?)";
+    private static final String getCourseCategoryListSql = "SELECT * FROM CourseCategory WHERE (CatCourseId = ?);";
     private static PreparedStatement getCourseCategoryListStatement;
 
     public static void openConnection() throws SQLNonTransientConnectionException{
@@ -34,7 +36,8 @@ public class Database {
             checkCourseNameInUseStatement = connection.prepareStatement(checkCourseNameInUseSql);
             createCourseStatement = connection.prepareStatement(createCourseSql);
             createCourseCategoryStatement = connection.prepareStatement(createCourseCategorySql);
-            //retrieveNewCourseIdStatement = connection.prepareStatement(retrieveNewCourseIdSql);
+            updateCourseCategoryStatement = connection.prepareStatement(updateCourseCategorySql);
+            deleteCourseCategoryStatement = connection.prepareStatement(deleteCourseCategorySql);
             getProfileCourseListStatement = connection.prepareStatement(getProfileCourseListSql);
             getCourseStatement = connection.prepareStatement(getCourseSql);
             getCourseCategoryListStatement = connection.prepareStatement(getCourseCategoryListSql);
@@ -60,14 +63,12 @@ public class Database {
         try {
             createProfileStatement.setString(1, pName);
             createProfileStatement.executeUpdate();
-            //return true;
         } catch (SQLIntegrityConstraintViolationException e) {
-            throw new SQLIntegrityConstraintViolationException();
+            throw e;
         } catch (SQLException e) {
             System.err.println("Error executing statement: createProfile");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
-        //return false;
     }
 
     public static List<Profile> getProfileList() {
@@ -94,7 +95,9 @@ public class Database {
             ResultSet rs = checkCourseNameInUseStatement.executeQuery();
             while (rs.next()) {
                 String cName = rs.getString("CName");
-                if (cName.equals(courseName)) return true;
+                if (cName.equals(courseName)) {
+                    return true;
+                }
             }
         } catch (SQLException e) {
             System.err.println("Error executing statement: checkCourseNameInUse");
@@ -104,47 +107,66 @@ public class Database {
         return false;
     }
 
-    public static boolean createCourse(int pId, String cName, double AplusGrade, double AGrade, double AminusGrade,
+    public static void createCourse(int pId, String cName, double AplusGrade, double AGrade, double AminusGrade,
                                        double BplusGrade, double BGrade, double BminusGrade, double CplusGrade,
-                                       double CGrade, double DGrade, List<CourseCategory> categories) {
+                                       double CGrade, double DGrade) throws SQLIntegrityConstraintViolationException {
         try {
             createCourseStatement.setInt(1, pId);
             createCourseStatement.setString(2, cName);
-            createCourseStatement.setFloat(3, (float)AplusGrade);
-            createCourseStatement.setFloat(4, (float)AGrade);
-            createCourseStatement.setFloat(5, (float)AminusGrade);
-            createCourseStatement.setFloat(6, (float)BplusGrade);
-            createCourseStatement.setFloat(7, (float)BGrade);
-            createCourseStatement.setFloat(8, (float)BminusGrade);
-            createCourseStatement.setFloat(9, (float)CplusGrade);
-            createCourseStatement.setFloat(10, (float)CGrade);
-            createCourseStatement.setFloat(11, (float)DGrade);
+            createCourseStatement.setFloat(3, (float) AplusGrade);
+            createCourseStatement.setFloat(4, (float) AGrade);
+            createCourseStatement.setFloat(5, (float) AminusGrade);
+            createCourseStatement.setFloat(6, (float) BplusGrade);
+            createCourseStatement.setFloat(7, (float) BGrade);
+            createCourseStatement.setFloat(8, (float) BminusGrade);
+            createCourseStatement.setFloat(9, (float) CplusGrade);
+            createCourseStatement.setFloat(10, (float) CGrade);
+            createCourseStatement.setFloat(11, (float) DGrade);
             createCourseStatement.executeUpdate();
-            //retrieveNewCourseIdStatement.setInt(1, pId);
-            //retrieveNewCourseIdStatement.setString(2, cName);
-            //ResultSet rs = retrieveNewCourseIdStatement.executeQuery();
-            getCourseStatement.setInt(1, pId);
-            getCourseStatement.setString(2, cName);
-            ResultSet rs = getCourseStatement.executeQuery();
-            int cId;
-            if (rs.next()) {
-                cId = rs.getInt("CId");
-            }
-            else {
-                throw new SQLException();
-            }
-            for (CourseCategory cat : categories) {
-                createCourseCategoryStatement.setInt(1, cId);
-                createCourseCategoryStatement.setString(2, cat.getTitle());
-                createCourseCategoryStatement.setFloat(3, (float)cat.getPercentage());
-                createCourseCategoryStatement.executeUpdate();
-            }
-            return true;
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw e;
         } catch (SQLException e) {
             System.err.println("Error executing statement: createCourse");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
-        return false;
+    }
+
+    public static void createCourseCategory(int cId, String catName, float catWeight) throws SQLIntegrityConstraintViolationException{
+        try {
+            createCourseCategoryStatement.setInt(1, cId);
+            createCourseCategoryStatement.setString(2, catName);
+            createCourseCategoryStatement.setFloat(3, catWeight);
+            createCourseCategoryStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw e;
+        } catch (SQLException e) {
+            System.err.println("Error executing statement: createCourseCategory");
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateCourseCategory(int catId, String catName, float catWeight) throws SQLIntegrityConstraintViolationException {
+        try {
+            updateCourseCategoryStatement.setString(1, catName);
+            updateCourseCategoryStatement.setFloat(2, catWeight);
+            updateCourseCategoryStatement.setInt(3, catId);
+            updateCourseCategoryStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw e;
+        } catch (SQLException e) {
+            System.err.println("Error executing statement: updateCourseCategory");
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteCourseCategory(int catId) {
+        try {
+            deleteCourseCategoryStatement.setInt(1, catId);
+            deleteCourseCategoryStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error executing statement: deleteCourseCategory");
+            e.printStackTrace();
+        }
     }
 
     public static List<String> getProfileCourseList(int pId) {
@@ -186,9 +208,10 @@ public class Database {
                 ResultSet categoryrs = getCourseCategoryListStatement.executeQuery();
                 List<CourseCategory> categories = new ArrayList<>();
                 while (categoryrs.next()) {
+                    int catId = categoryrs.getInt("CatId");
                     String catName = categoryrs.getString("CatName");
-                    float percentage = categoryrs.getFloat("Percentage");
-                    categories.add(new CourseCategory(catName, percentage));
+                    float catWeight = categoryrs.getFloat("CatWeight");
+                    categories.add(new CourseCategory(catId, catName, catWeight));
                 }
                 course = new Course(cId, cName, AplusGrade, AGrade, AminusGrade, BplusGrade, BGrade, BminusGrade,
                         CplusGrade, CGrade, DGrade, categories);

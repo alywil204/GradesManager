@@ -4,18 +4,18 @@ import java.util.List;
 
 public class Course {
 
-    private int cId;
-    private String cName;
-    private float AplusGrade;
-    private float AGrade;
-    private float AminusGrade;
-    private float BplusGrade;
-    private float BGrade;
-    private float BminusGrade;
-    private float CplusGrade;
-    private float CGrade;
-    private float DGrade;
-    private List<CourseCategory> categories;
+    private final int cId;
+    private final String cName;
+    private final float AplusGrade;
+    private final float AGrade;
+    private final float AminusGrade;
+    private final float BplusGrade;
+    private final float BGrade;
+    private final float BminusGrade;
+    private final float CplusGrade;
+    private final float CGrade;
+    private final float DGrade;
+    private final List<CourseCategory> categories;
 
     public Course(int cId, String cName, float AplusGrade, float AGrade, float AminusGrade, float BplusGrade,
                   float BGrade, float BminusGrade, float CplusGrade, float CGrade, float DGrade,

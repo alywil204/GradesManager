@@ -2,8 +2,8 @@ package main;
 
 public class Profile {
 
-    private int pId;
-    private String pName;
+    private final int pId;
+    private final String pName;
 
     public Profile(int pId, String pName) {
         this.pId = pId;

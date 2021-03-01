@@ -19,6 +19,7 @@ CREATE TABLE Course (
     DGrade FLOAT NOT NULL,
 
     FOREIGN KEY (CProfileId) REFERENCES Profile(PId),
+    CONSTRAINT CNameUnique UNIQUE (CProfileId, CName),
     CHECK (AplusGrade <= 100),
     CHECK (AplusGrade > AGrade),
     CHECK (AGrade > AminusGrade),
@@ -35,29 +36,24 @@ CREATE TABLE CourseCategory (
     CatId MEDIUMINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     CatCourseId MEDIUMINT NOT NULL,
     CatName VARCHAR(60) NOT NULL,
-    Percentage FLOAT NOT NULL,
-    CatType ENUM('Single Grade', 'Multiple Grade'),
+    CatWeight FLOAT NOT NULL,
 
     FOREIGN KEY (CatCourseId) REFERENCES Course(CId),
-    CHECK (Percentage > 0)
+    CONSTRAINT CatNameUnique UNIQUE (CatCourseId, CatName),
+    CHECK (CatWeight > 0)
 );
 
-CREATE TABLE CategoryPoints (
-    CatId MEDIUMINT UNIQUE NOT NULL,
-    MaxPoints SMALLINT,
-    Points SMALLINT,
-
-    FOREIGN KEY (CatId) REFERENCES CourseCategory(CatId),
-    CHECK (MaxPoints > 0 AND Points > 0)
-);
-
-CREATE TABLE CategoryAssignments (
-    CatId MEDIUMINT NOT NULL,
+CREATE TABLE CourseAssignment (
+    AId MEDIUMINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    ACourseId MEDIUMINT NOT NULL,
+    ACategoryId MEDIUMINT,
     AName VARCHAR(60) NOT NULL,
-    MaxPoints SMALLINT,
-    Points SMALLINT,
-    Weight FLOAT,
+    PointsDenominator FLOAT NOT NULL,
+    PointsNumerator FLOAT NOT NULL,
+    AWeight FLOAT,
 
-    FOREIGN KEY (CatId) REFERENCES CourseCategory(CatId),
-    CHECK (MaxPoints > 0 AND Points > 0 AND Weight > 0)
+    FOREIGN KEY (ACourseId) REFERENCES Course(CId),
+    FOREIGN KEY (ACategoryId) REFERENCES CourseCategory(CatId),
+    CONSTRAINT ANameUnique UNIQUE (ACourseId, AName),
+    CHECK (PointsDenominator > 0 AND PointsNumerator > 0 AND AWeight > 0)
 );

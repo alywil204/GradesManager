@@ -45,6 +45,9 @@ public class CourseSelectControl {
             return;
         }
         Course course = Database.getCourse(profile.getPId(), selected);
+        if (course == null) {
+            errorText.setText("Database error.");
+        }
         Main.mainCourseUseCase(course);
     }
 
