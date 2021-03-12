@@ -16,10 +16,11 @@ public class Course {
     private final float CGrade;
     private final float DGrade;
     private final List<CourseCategory> categories;
+    private final List<CourseAssignment> assignments;
 
     public Course(int cId, String cName, float AplusGrade, float AGrade, float AminusGrade, float BplusGrade,
                   float BGrade, float BminusGrade, float CplusGrade, float CGrade, float DGrade,
-                  List<CourseCategory> categories) {
+                  List<CourseCategory> categories, List<CourseAssignment> assignments) {
         this.cId = cId;
         this.cName = cName;
         this.AplusGrade = AplusGrade;
@@ -32,6 +33,7 @@ public class Course {
         this.CGrade = CGrade;
         this.DGrade = DGrade;
         this.categories = categories;
+        this.assignments = assignments;
     }
 
     public int getCId() {
@@ -80,5 +82,9 @@ public class Course {
 
     public List<CourseCategory> getCategories() {
         return categories;
+    }
+
+    public List<CourseAssignment> getAssignments() {
+        return assignments;
     }
 }

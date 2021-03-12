@@ -48,12 +48,14 @@ CREATE TABLE CourseAssignment (
     ACourseId MEDIUMINT NOT NULL,
     ACategoryId MEDIUMINT,
     AName VARCHAR(60) NOT NULL,
-    PointsDenominator FLOAT NOT NULL,
     PointsNumerator FLOAT NOT NULL,
+    PointsDenominator FLOAT NOT NULL,
     AWeight FLOAT,
 
     FOREIGN KEY (ACourseId) REFERENCES Course(CId),
     FOREIGN KEY (ACategoryId) REFERENCES CourseCategory(CatId),
     CONSTRAINT ANameUnique UNIQUE (ACourseId, AName),
-    CHECK (PointsDenominator > 0 AND PointsNumerator > 0 AND AWeight > 0)
+    CHECK (PointsNumerator >= 0),
+    CHECK (PointsDenominator > 0),
+    CHECK (AWeight > 0)
 );

@@ -21,16 +21,23 @@ public class Database {
     private static PreparedStatement updateCourseCategoryStatement;
     private static final String deleteCourseCategorySql = "DELETE FROM CourseCategory WHERE (CatId = ?);";
     private static PreparedStatement deleteCourseCategoryStatement;
+    private static final String createAssignmentCategorySql = "INSERT INTO CourseAssignment (ACourseId, ACategoryId, AName, PointsNumerator, PointsDenominator, AWeight) VALUES (?, ?, ?, ?, ?, ?);";
+    private static PreparedStatement createAssignmentCategoryStatement;
+    private static final String updateCourseAssignmentSql = "UPDATE CourseAssignment SET ACategoryId = ?, AName = ?, PointsNumerator = ?, PointsDenominator = ?, AWeight = ? WHERE (AId = ?);";
+    private static PreparedStatement updateCourseAssignmentStatement;
     private static final String getProfileCourseListSql = "SELECT CName FROM Course WHERE (CProfileId = ?);";
     private static PreparedStatement getProfileCourseListStatement;
     private static final String getCourseSql = "SELECT * FROM Course WHERE (CProfileId = ? AND CName = ?);";
     private static PreparedStatement getCourseStatement;
     private static final String getCourseCategoryListSql = "SELECT * FROM CourseCategory WHERE (CatCourseId = ?);";
     private static PreparedStatement getCourseCategoryListStatement;
+    private static final String getCourseAssignmentListSql = "SELECT * FROM CourseAssignment WHERE (ACourseId = ?);";
+    private static PreparedStatement getCourseAssignmentListStatement;
 
     public static void openConnection() throws SQLNonTransientConnectionException{
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/GradesManagerDB", "root", "gmDB");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/GradesManagerDB",
+                    "root", "gmDB");
             createProfileStatement = connection.prepareStatement(createProfileSql);
             getProfileListStatement = connection.prepareStatement(getProfileListSql);
             checkCourseNameInUseStatement = connection.prepareStatement(checkCourseNameInUseSql);
@@ -38,9 +45,12 @@ public class Database {
             createCourseCategoryStatement = connection.prepareStatement(createCourseCategorySql);
             updateCourseCategoryStatement = connection.prepareStatement(updateCourseCategorySql);
             deleteCourseCategoryStatement = connection.prepareStatement(deleteCourseCategorySql);
+            createAssignmentCategoryStatement = connection.prepareStatement(createAssignmentCategorySql);
+            updateCourseAssignmentStatement = connection.prepareStatement(updateCourseAssignmentSql);
             getProfileCourseListStatement = connection.prepareStatement(getProfileCourseListSql);
             getCourseStatement = connection.prepareStatement(getCourseSql);
             getCourseCategoryListStatement = connection.prepareStatement(getCourseCategoryListSql);
+            getCourseAssignmentListStatement = connection.prepareStatement(getCourseAssignmentListSql);
         } catch (SQLNonTransientConnectionException e) {
             throw new SQLNonTransientConnectionException();
         } catch (SQLException e) {
@@ -131,7 +141,8 @@ public class Database {
         }
     }
 
-    public static void createCourseCategory(int cId, String catName, float catWeight) throws SQLIntegrityConstraintViolationException{
+    public static void createCourseCategory(int cId, String catName, float catWeight)
+            throws SQLIntegrityConstraintViolationException{
         try {
             createCourseCategoryStatement.setInt(1, cId);
             createCourseCategoryStatement.setString(2, catName);
@@ -145,7 +156,8 @@ public class Database {
         }
     }
 
-    public static void updateCourseCategory(int catId, String catName, float catWeight) throws SQLIntegrityConstraintViolationException {
+    public static void updateCourseCategory(int catId, String catName, float catWeight)
+            throws SQLIntegrityConstraintViolationException {
         try {
             updateCourseCategoryStatement.setString(1, catName);
             updateCourseCategoryStatement.setFloat(2, catWeight);
@@ -165,6 +177,54 @@ public class Database {
             deleteCourseCategoryStatement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error executing statement: deleteCourseCategory");
+            e.printStackTrace();
+        }
+    }
+
+    public static void createCourseAssignment(int courseId, int catId, String name, float pointsNumerator,
+                                              float pointsDenominator, float assignmentWeight)
+            throws SQLIntegrityConstraintViolationException {
+        try {
+            createAssignmentCategoryStatement.setInt(1, courseId);
+            if (catId > 0) {
+                createAssignmentCategoryStatement.setInt(2, catId);
+            }
+            else {
+                createAssignmentCategoryStatement.setNull(2, Types.INTEGER);
+            }
+            createAssignmentCategoryStatement.setString(3, name);
+            createAssignmentCategoryStatement.setFloat(4, pointsNumerator);
+            createAssignmentCategoryStatement.setFloat(5, pointsDenominator);
+            createAssignmentCategoryStatement.setFloat(6, assignmentWeight);
+            createAssignmentCategoryStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw e;
+        } catch (SQLException e) {
+            System.err.println("Error executing statement: createCourseAssignment");
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateCourseAssignment(int aId, int catId, String name, float pointsNumerator,
+                                              float pointsDenominator, float assignmentWeight)
+            throws SQLIntegrityConstraintViolationException {
+        try {
+            if (catId > 0) {
+                updateCourseAssignmentStatement.setInt(1, catId);
+            }
+            else {
+                updateCourseAssignmentStatement.setNull(1, Types.INTEGER);
+            }
+            updateCourseAssignmentStatement.setString(2, name);
+            updateCourseAssignmentStatement.setFloat(3, pointsNumerator);
+            updateCourseAssignmentStatement.setFloat(4, pointsDenominator);
+            updateCourseAssignmentStatement.setFloat(5, assignmentWeight);
+            updateCourseAssignmentStatement.setInt(6, aId);
+            updateCourseAssignmentStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw e;
+        } catch (SQLException e) {
+            System.err.println("Error executing statement: updateCourseAssignment");
             e.printStackTrace();
         }
     }
@@ -204,6 +264,7 @@ public class Database {
                 float CplusGrade = rs.getFloat("CplusGrade");
                 float CGrade = rs.getFloat("CGrade");
                 float DGrade = rs.getFloat("DGrade");
+
                 getCourseCategoryListStatement.setInt(1, cId);
                 ResultSet categoryrs = getCourseCategoryListStatement.executeQuery();
                 List<CourseCategory> categories = new ArrayList<>();
@@ -213,8 +274,22 @@ public class Database {
                     float catWeight = categoryrs.getFloat("CatWeight");
                     categories.add(new CourseCategory(catId, catName, catWeight));
                 }
+
+                getCourseAssignmentListStatement.setInt(1, cId);
+                ResultSet assignmentrs = getCourseAssignmentListStatement.executeQuery();
+                List<CourseAssignment> assignments = new ArrayList<>();
+                while (assignmentrs.next()) {
+                    int aId = assignmentrs.getInt("AId");
+                    int aCategoryId = assignmentrs.getInt("ACategoryId");
+                    String aName = assignmentrs.getString("AName");
+                    float pointsDenominator = assignmentrs.getFloat("PointsDenominator");
+                    float pointsNumerator = assignmentrs.getFloat("PointsNumerator");
+                    float aWeight = assignmentrs.getFloat("AWeight");
+                    assignments.add(new CourseAssignment(aId, aCategoryId, aName, pointsNumerator, pointsDenominator, aWeight));
+                }
+
                 course = new Course(cId, cName, AplusGrade, AGrade, AminusGrade, BplusGrade, BGrade, BminusGrade,
-                        CplusGrade, CGrade, DGrade, categories);
+                        CplusGrade, CGrade, DGrade, categories, assignments);
             }
             return course;
         } catch (SQLException e) {

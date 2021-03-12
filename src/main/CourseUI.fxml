@@ -112,7 +112,7 @@
                                           <Insets left="99.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Text fx:id="saveCategoryText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                                    <Text fx:id="saveCategoryErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" />
                                        </GridPane.margin>
@@ -152,13 +152,20 @@
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Points Worth:" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
-                                    <Button mnemonicParsing="false" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.valignment="TOP" />
+                                    <Button mnemonicParsing="false" onAction="#SaveAssignment" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.valignment="TOP" />
                                     <ChoiceBox fx:id="assignmentChoiceBox" prefWidth="150.0" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                                     <ChoiceBox fx:id="assignmentCategoryChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                    <TextField fx:id="assignmentNameBox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-                                    <Spinner fx:id="assignmentWeightChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+                                    <TextField fx:id="assignmentNameField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+                                    <Spinner fx:id="assignmentWeightSpinner" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
                                     <Spinner fx:id="pointsAwardedSpinner" GridPane.rowIndex="5" GridPane.valignment="TOP" />
                                     <Spinner fx:id="pointsWorthSpinner" GridPane.rowIndex="7" GridPane.valignment="TOP" />
+                                    <Text fx:id="saveAssignmentErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <Button fx:id="aDeleteButton" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+                                       <GridPane.margin>
+                                          <Insets right="51.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Text fx:id="assignmentChoiceErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                                  </children>
                               </GridPane>
                            </children>

@@ -1,18 +1,16 @@
 package main;
 
-public class Assignment {
+public class CourseAssignment {
 
     private final int aId;
-    private final int cId;
     private final int catId;
     private final String aName;
     private final float pointsNumerator;
     private final float pointsDenominator;
     private final float aWeight;
 
-    public Assignment(int aId, int cId, int catId, String aName, float pointsNumerator, float pointsDenominator, float aWeight) {
+    public CourseAssignment(int aId, int catId, String aName, float pointsNumerator, float pointsDenominator, float aWeight) {
         this.aId = aId;
-        this.cId = cId;
         this.catId = catId;
         this.aName = aName;
         this.pointsNumerator = pointsNumerator;
@@ -22,10 +20,6 @@ public class Assignment {
 
     public int getAId() {
         return aId;
-    }
-
-    public int getCId() {
-        return cId;
     }
 
     public int getCatId() {
@@ -46,5 +40,9 @@ public class Assignment {
 
     public float getAWeight() {
         return aWeight;
+    }
+
+    public String toString() {
+        return getAName();
     }
 }
