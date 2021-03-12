@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.NumberFormat;
+import java.util.Optional;
 
 public class CourseControl {
 
@@ -254,6 +255,7 @@ public class CourseControl {
 
     @FXML
     private void SaveCategory(ActionEvent event) {
+        saveCategoryErrorText.setText("");
         CourseCategory cat = categoryChoiceBox.getValue();
         categoryNameField.setText(categoryNameField.getText().trim());
         String name = categoryNameField.getText();
@@ -266,7 +268,6 @@ public class CourseControl {
             } else {
                 Database.updateCourseCategory(cat.getCatId(), name, weight);
             }
-            saveCategoryErrorText.setText("");
         } catch (SQLIntegrityConstraintViolationException e) {
             if (weight == 0) {
                 saveCategoryErrorText.setText("Category weight must be greater than 0");
@@ -279,9 +280,48 @@ public class CourseControl {
     }
 
     @FXML
+    private void DeleteAssignmentPressed(ActionEvent event) {
+        deleteAssignment(assignmentChoiceBox.getValue().getAId());
+    }
+
+    private void deleteAssignment(int aId) {
+        Database.deleteCourseAssignment(aId);
+        reloadCourseChange();
+    }
+
+    @FXML
     private void DeleteCategory(ActionEvent event) {
+        saveCategoryErrorText.setText("");
         CourseCategory cat = categoryChoiceBox.getValue();
-        Database.deleteCourseCategory(cat.getCatId());
+        try {
+            Database.deleteCourseCategory(cat.getCatId());
+        } catch (SQLIntegrityConstraintViolationException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Deleting category \"" + cat.getCatName() + "\" will also delete all assignments belonging to the category.");
+            alert.setContentText("Would you like to delete this category and all of it's assignments?");
+
+            ButtonType confirm = new ButtonType("Confirm Delete", ButtonBar.ButtonData.YES);
+            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(confirm, cancel);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == confirm) {
+                for (CourseAssignment a : course.getAssignments()) {
+                    if (a.getCatId() == cat.getCatId()) {
+                        deleteAssignment(a.getAId());
+                    }
+                }
+                try {
+                    Database.deleteCourseCategory(cat.getCatId());
+                } catch (SQLIntegrityConstraintViolationException e2) {
+                    saveCategoryErrorText.setText("Database error.");
+                }
+            }
+            else {
+                return;
+            }
+        }
         reloadCourseChange();
     }
 

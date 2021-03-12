@@ -25,6 +25,8 @@ public class Database {
     private static PreparedStatement createAssignmentCategoryStatement;
     private static final String updateCourseAssignmentSql = "UPDATE CourseAssignment SET ACategoryId = ?, AName = ?, PointsNumerator = ?, PointsDenominator = ?, AWeight = ? WHERE (AId = ?);";
     private static PreparedStatement updateCourseAssignmentStatement;
+    private static final String deleteCourseAssignmentSql = "DELETE FROM CourseAssignment WHERE (AId = ?);";
+    private static PreparedStatement deleteCourseAssignmentStatement;
     private static final String getProfileCourseListSql = "SELECT CName FROM Course WHERE (CProfileId = ?);";
     private static PreparedStatement getProfileCourseListStatement;
     private static final String getCourseSql = "SELECT * FROM Course WHERE (CProfileId = ? AND CName = ?);";
@@ -47,6 +49,7 @@ public class Database {
             deleteCourseCategoryStatement = connection.prepareStatement(deleteCourseCategorySql);
             createAssignmentCategoryStatement = connection.prepareStatement(createAssignmentCategorySql);
             updateCourseAssignmentStatement = connection.prepareStatement(updateCourseAssignmentSql);
+            deleteCourseAssignmentStatement = connection.prepareStatement(deleteCourseAssignmentSql);
             getProfileCourseListStatement = connection.prepareStatement(getProfileCourseListSql);
             getCourseStatement = connection.prepareStatement(getCourseSql);
             getCourseCategoryListStatement = connection.prepareStatement(getCourseCategoryListSql);
@@ -171,10 +174,12 @@ public class Database {
         }
     }
 
-    public static void deleteCourseCategory(int catId) {
+    public static void deleteCourseCategory(int catId) throws SQLIntegrityConstraintViolationException {
         try {
             deleteCourseCategoryStatement.setInt(1, catId);
             deleteCourseCategoryStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw e;
         } catch (SQLException e) {
             System.err.println("Error executing statement: deleteCourseCategory");
             e.printStackTrace();
@@ -225,6 +230,16 @@ public class Database {
             throw e;
         } catch (SQLException e) {
             System.err.println("Error executing statement: updateCourseAssignment");
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteCourseAssignment(int aId) {
+        try {
+            deleteCourseAssignmentStatement.setInt(1, aId);
+            deleteCourseAssignmentStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error executing statement: deleteCourseAssignment");
             e.printStackTrace();
         }
     }

@@ -160,7 +160,7 @@
                                     <Spinner fx:id="pointsAwardedSpinner" GridPane.rowIndex="5" GridPane.valignment="TOP" />
                                     <Spinner fx:id="pointsWorthSpinner" GridPane.rowIndex="7" GridPane.valignment="TOP" />
                                     <Text fx:id="saveAssignmentErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                    <Button fx:id="aDeleteButton" mnemonicParsing="false" text="Delete" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+                                    <Button fx:id="aDeleteButton" mnemonicParsing="false" onAction="#DeleteAssignmentPressed" text="Delete" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                                        <GridPane.margin>
                                           <Insets right="51.0" />
                                        </GridPane.margin>
