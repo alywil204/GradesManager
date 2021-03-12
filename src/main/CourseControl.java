@@ -246,7 +246,6 @@ public class CourseControl {
                 saveAssignmentErrorText.setText("Assignment weight must be greater than 0");
             }
             else {
-                System.out.println(e.getMessage());
                 saveAssignmentErrorText.setText("Assignment name conflicts with existing");
             }
         }
@@ -282,11 +281,11 @@ public class CourseControl {
     @FXML
     private void DeleteAssignmentPressed(ActionEvent event) {
         deleteAssignment(assignmentChoiceBox.getValue().getAId());
+        reloadCourseChange();
     }
 
     private void deleteAssignment(int aId) {
         Database.deleteCourseAssignment(aId);
-        reloadCourseChange();
     }
 
     @FXML
