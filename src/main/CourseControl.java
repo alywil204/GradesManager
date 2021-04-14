@@ -220,7 +220,6 @@ public class CourseControl {
             categoryChoiceBox.getItems().addAll(course.getCategories());
             assignmentCategoryChoiceBox.getItems().addAll(course.getCategories());
             assignmentChoiceBox.getItems().addAll(course.getAssignments());
-
         }
 
         for (CourseCategory item : categoryChoiceBox.getItems()) {
@@ -366,43 +365,55 @@ public class CourseControl {
 
     private void showResults() {
         TreeItem<AssignmentTableRecord> rootRow = new TreeItem<>(new AssignmentTableRecord("Root", "", ""));
+
         double possibleWeight = 0;
         double weightAchieved = 0;
+
         for (CourseCategory category : course.getCategories()) {
-            possibleWeight += category.getCatWeight();
-            double scoreSum = 0;
             List<TreeItem<AssignmentTableRecord>> assignmentRecords = new ArrayList<>();
+
+            possibleWeight += category.getCatWeight();
+            double catScore = 0;
+
             for (CourseAssignment assignment : course.getAssignments()) {
                 if (assignment.getCatId() == category.getCatId()) {
-                    scoreSum += assignment.getPointsNumerator()/assignment.getPointsDenominator()*assignment.getAWeight();
-                    assignmentRecords.add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(assignment.getPointsNumerator() / assignment.getPointsDenominator() * 100.0), nf.format(assignment.getAWeight()))));
+                    assignmentRecords.add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(assignment.getScore() * 100.0), nf.format(assignment.getAWeight()))));
+
+                    catScore += assignment.getScore()*assignment.getAWeight()/100.0;
                 }
             }
-            weightAchieved += scoreSum*category.getCatWeight()/100.0;
-            TreeItem<AssignmentTableRecord> categoryRow = new TreeItem<>(new AssignmentTableRecord(category.getCatName(), nf.format(scoreSum), nf.format(category.getCatWeight())));
+            TreeItem<AssignmentTableRecord> categoryRow = new TreeItem<>(new AssignmentTableRecord(category.getCatName(), nf.format(catScore*100.0), nf.format(category.getCatWeight())));
             categoryRow.getChildren().addAll(assignmentRecords);
             rootRow.getChildren().add(categoryRow);
+
             categoryRow.setExpanded(true);
+            weightAchieved += catScore*category.getCatWeight();
         }
         for (CourseAssignment assignment : course.getAssignments()) {
             if (assignment.getCatId() == 0) {
-                double score = assignment.getPointsNumerator() / assignment.getPointsDenominator() * 100.0;
-                rootRow.getChildren().add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(score), nf.format(assignment.getAWeight()))));
+                rootRow.getChildren().add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(assignment.getScore()*100.0), nf.format(assignment.getAWeight()))));
+
                 possibleWeight += assignment.getAWeight();
-                weightAchieved += score*assignment.getAWeight()/100.0;
+                weightAchieved += assignment.getScore()*assignment.getAWeight();
             }
         }
         assignmentTreeTableView.setRoot(rootRow);
+
+        double examWeight = 100 - possibleWeight;
         totalWeightAchievedText.setText(nf.format(weightAchieved)+"/"+nf.format(possibleWeight));
-        gradeNeededAplusText.setText(nf.format(Math.max(0, (course.getAplusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
-        gradeNeededAText.setText(nf.format(Math.max(0,(course.getAGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
-        gradeNeededAminusText.setText(nf.format(Math.max(0,(course.getAminusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
-        gradeNeededBplusText.setText(nf.format(Math.max(0,(course.getBplusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
-        gradeNeededBText.setText(nf.format(Math.max(0,(course.getBGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
-        gradeNeededBminusText.setText(nf.format(Math.max(0,(course.getBminusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
-        gradeNeededCplusText.setText(nf.format(Math.max(0,(course.getCplusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
-        gradeNeededCText.setText(nf.format(Math.max(0,(course.getCGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
-        gradeNeededDText.setText(nf.format(Math.max(0,(course.getDGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededAplusText.setText(nf.format(calculateScoreNeeded(course.getAplusGrade(),weightAchieved,examWeight)*100.0));
+        gradeNeededAText.setText(nf.format(calculateScoreNeeded(course.getAGrade(),weightAchieved,examWeight)*100.0));
+        gradeNeededAminusText.setText(nf.format(calculateScoreNeeded(course.getAminusGrade(),weightAchieved,examWeight)*100.0));
+        gradeNeededBplusText.setText(nf.format(calculateScoreNeeded(course.getBplusGrade(),weightAchieved,examWeight)*100.0));
+        gradeNeededBText.setText(nf.format(calculateScoreNeeded(course.getBGrade(),weightAchieved,examWeight)*100.0));
+        gradeNeededBminusText.setText(nf.format(calculateScoreNeeded(course.getBminusGrade(),weightAchieved,examWeight)*100.0));
+        gradeNeededCplusText.setText(nf.format(calculateScoreNeeded(course.getCplusGrade(),weightAchieved,examWeight)*100.0));
+        gradeNeededCText.setText(nf.format(calculateScoreNeeded(course.getCGrade(),weightAchieved,examWeight)*100.0));
+        gradeNeededDText.setText(nf.format(calculateScoreNeeded(course.getDGrade(),weightAchieved,examWeight)*100.0));
+    }
+
+    private double calculateScoreNeeded(double maxGrade, double weightAchieved, double examWeight) {
+        return Math.max(0, (maxGrade-weightAchieved)/examWeight);
     }
 
     @FXML

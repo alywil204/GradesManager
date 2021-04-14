@@ -38,6 +38,10 @@ public class CourseAssignment {
         return pointsDenominator;
     }
 
+    public double getScore() {
+        return getPointsNumerator()/getPointsDenominator();
+    }
+
     public float getAWeight() {
         return aWeight;
     }
