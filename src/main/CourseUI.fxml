@@ -8,6 +8,8 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,12 +18,14 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CourseControl">
    <children>
-      <GridPane layoutX="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="0.0">
+      <GridPane layoutX="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="245.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="185.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="185.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="20.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" />
+            <ColumnConstraints hgrow="SOMETIMES" />
+          <ColumnConstraints hgrow="SOMETIMES" />
+            <ColumnConstraints hgrow="SOMETIMES" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
@@ -47,16 +51,16 @@
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile:" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Course:" GridPane.columnIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grades:" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A+" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A-" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B+" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B-" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C+" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Grades:" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A+" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A-" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B+" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B-" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C+" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.columnIndex="4" GridPane.rowIndex="10" />
             <Text fx:id="profileText" strokeType="OUTSIDE" strokeWidth="0.0">
                <GridPane.margin>
                   <Insets left="40.0" />
@@ -67,17 +71,16 @@
                   <Insets left="44.0" />
                </GridPane.margin>
             </Text>
-            <Text fx:id="AplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Text fx:id="AText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Text fx:id="AminusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <Text fx:id="BplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <Text fx:id="BText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-            <Text fx:id="BminusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="7" />
-            <Text fx:id="CplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="8" />
-            <Text fx:id="CText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="9" />
-            <Text fx:id="DText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="4" GridPane.rowIndex="10" />
-            <Button mnemonicParsing="false" text="Edit Course" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="CENTER" />
-            <Button mnemonicParsing="false" text="Get Statistics" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="15" GridPane.valignment="CENTER" />
+            <Text fx:id="AplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <Text fx:id="AText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <Text fx:id="AminusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <Text fx:id="BplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+            <Text fx:id="BText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+            <Text fx:id="BminusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+            <Text fx:id="CplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+            <Text fx:id="CText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="9" />
+            <Text fx:id="DText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+            <Button mnemonicParsing="false" text="Edit Course" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="CENTER" />
             <Button mnemonicParsing="false" onAction="#ReturnPressed" text="Return" GridPane.rowIndex="17" />
             <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2" GridPane.rowIndex="12" GridPane.rowSpan="5">
               <tabs>
@@ -88,31 +91,32 @@
                               <Separator orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.topAnchor="0.0" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" rotate="180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0" />
                               <Separator prefWidth="200.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                              <GridPane layoutX="112.0" layoutY="31.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+                              <GridPane layoutX="112.0" layoutY="31.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <TextField fx:id="categoryNameField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" GridPane.rowIndex="3" GridPane.valignment="TOP" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" GridPane.valignment="BOTTOM" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" GridPane.columnIndex="2" GridPane.valignment="BOTTOM" />
                                     <ChoiceBox fx:id="categoryChoiceBox" prefWidth="150.0" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                    <Spinner fx:id="categoryWeightSpinner" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                    <Button mnemonicParsing="false" onAction="#SaveCategory" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-                                    <Button fx:id="catDeleteButton" mnemonicParsing="false" onAction="#DeleteCategory" text="Delete" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+                                    <Spinner fx:id="categoryWeightSpinner" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                    <Button mnemonicParsing="false" onAction="#SaveCategory" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+                                    <Button fx:id="catDeleteButton" mnemonicParsing="false" onAction="#DeleteCategory" text="Delete" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                                        <GridPane.margin>
                                           <Insets left="99.0" />
                                        </GridPane.margin>
                                     </Button>
-                                    <Text fx:id="saveCategoryErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                                    <Text fx:id="saveCategoryErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                                        <GridPane.margin>
                                           <Insets bottom="10.0" />
                                        </GridPane.margin>
@@ -132,37 +136,38 @@
                               <Separator layoutX="97.0" layoutY="180.0" prefWidth="200.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                               <GridPane layoutX="148.0" layoutY="46.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="5.0">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Assignment:" GridPane.valignment="BOTTOM" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Points Awarded:" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Points Worth:" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
-                                    <Button mnemonicParsing="false" onAction="#SaveAssignment" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.valignment="TOP" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" GridPane.columnIndex="2" GridPane.valignment="BOTTOM" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+                                    <Button mnemonicParsing="false" onAction="#SaveAssignment" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP" />
                                     <ChoiceBox fx:id="assignmentChoiceBox" prefWidth="150.0" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                    <ChoiceBox fx:id="assignmentCategoryChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                    <ChoiceBox fx:id="assignmentCategoryChoiceBox" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                                     <TextField fx:id="assignmentNameField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-                                    <Spinner fx:id="assignmentWeightSpinner" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+                                    <Spinner fx:id="assignmentWeightSpinner" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="TOP" />
                                     <Spinner fx:id="pointsAwardedSpinner" GridPane.rowIndex="5" GridPane.valignment="TOP" />
                                     <Spinner fx:id="pointsWorthSpinner" GridPane.rowIndex="7" GridPane.valignment="TOP" />
-                                    <Text fx:id="saveAssignmentErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                    <Button fx:id="aDeleteButton" mnemonicParsing="false" onAction="#DeleteAssignmentPressed" text="Delete" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+                                    <Text fx:id="saveAssignmentErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                    <Button fx:id="aDeleteButton" mnemonicParsing="false" onAction="#DeleteAssignmentPressed" text="Delete" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                                        <GridPane.margin>
-                                          <Insets right="51.0" />
+                                          <Insets />
                                        </GridPane.margin>
                                     </Button>
                                     <Text fx:id="assignmentChoiceErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.rowIndex="2" GridPane.valignment="TOP" />
@@ -174,6 +179,30 @@
                 </Tab>
               </tabs>
             </TabPane>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Grade Needed:" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <Text fx:id="gradeNeededAplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <TreeTableView fx:id="assignmentTreeTableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="10">
+              <columns>
+                <TreeTableColumn fx:id="assignmentColumn" prefWidth="250.0" text="Assignment" />
+                <TreeTableColumn fx:id="scoreColumn" minWidth="0.0" prefWidth="50.0" text="Score" />
+                  <TreeTableColumn fx:id="weightColumn" prefWidth="55.0" text="Weight" />
+              </columns>
+            </TreeTableView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Course" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight Achieved:" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <Text fx:id="totalWeightAchievedText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <Text fx:id="gradeNeededAText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <Text fx:id="gradeNeededAminusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <Text fx:id="gradeNeededBplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+            <Text fx:id="gradeNeededBText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+            <Text fx:id="gradeNeededBminusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+            <Text fx:id="gradeNeededCplusText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="8" />
+            <Text fx:id="gradeNeededCText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="9" />
+            <Text fx:id="gradeNeededDText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="10" />
          </children>
       </GridPane>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />

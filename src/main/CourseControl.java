@@ -1,12 +1,16 @@
 package main;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.text.Text;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class CourseControl {
@@ -63,6 +67,35 @@ public class CourseControl {
     private Text assignmentChoiceErrorText;
     @FXML
     private Text saveAssignmentErrorText;
+
+    @FXML
+    private TreeTableView<AssignmentTableRecord> assignmentTreeTableView;
+    @FXML
+    private TreeTableColumn<AssignmentTableRecord, String> assignmentColumn;
+    @FXML
+    private TreeTableColumn<AssignmentTableRecord, String> scoreColumn;
+    @FXML
+    private TreeTableColumn<AssignmentTableRecord, String> weightColumn;
+    @FXML
+    private Text totalWeightAchievedText;
+    @FXML
+    private Text gradeNeededAplusText;
+    @FXML
+    private Text gradeNeededAText;
+    @FXML
+    private Text gradeNeededAminusText;
+    @FXML
+    private Text gradeNeededBplusText;
+    @FXML
+    private Text gradeNeededBText;
+    @FXML
+    private Text gradeNeededBminusText;
+    @FXML
+    private Text gradeNeededCplusText;
+    @FXML
+    private Text gradeNeededCText;
+    @FXML
+    private Text gradeNeededDText;
 
     private Profile profile;
     private Course course;
@@ -121,13 +154,12 @@ public class CourseControl {
             }
             else if (t1 != null) {
                 assignmentNameField.setText(t1.getAName());
-                assignmentWeightSpinner.getValueFactory().setValue((double)t1.getAWeight());
-                pointsWorthSpinner.getValueFactory().setValue((double)t1.getPointsDenominator());
-                pointsAwardedSpinner.getValueFactory().setValue((double)t1.getPointsNumerator());
+                assignmentWeightSpinner.getValueFactory().setValue((double) t1.getAWeight());
+                pointsWorthSpinner.getValueFactory().setValue((double) t1.getPointsDenominator());
+                pointsAwardedSpinner.getValueFactory().setValue((double) t1.getPointsNumerator());
                 if (t1.getCatId() == 0) {
                     assignmentCategoryChoiceBox.setValue(noneCat);
-                }
-                else {
+                } else {
                     for (CourseCategory item : assignmentCategoryChoiceBox.getItems()) {
                         if (t1.getCatId() == item.getCatId()) {
                             assignmentCategoryChoiceBox.setValue(item);
@@ -145,6 +177,12 @@ public class CourseControl {
         assignmentCategoryChoiceBox.getItems().add(noneCat);
         assignmentCategoryChoiceBox.setValue(noneCat);
         assignmentCategoryChoiceBox.getItems().addAll(course.getCategories());
+
+        assignmentTreeTableView.setShowRoot(false);
+        assignmentColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
+        scoreColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("score"));
+        weightColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("weight"));
+        showResults();
     }
 
     public CourseControl(Profile profile, Course course) {
@@ -214,6 +252,8 @@ public class CourseControl {
         if (assignmentChoiceBox.getSelectionModel().getSelectedItem() == null) {
             assignmentChoiceBox.setValue(createNewA);
         }
+
+        showResults();
     }
 
     @FXML
@@ -324,8 +364,74 @@ public class CourseControl {
         reloadCourseChange();
     }
 
+    private void showResults() {
+        TreeItem<AssignmentTableRecord> rootRow = new TreeItem<>(new AssignmentTableRecord("Root", "", ""));
+        double possibleWeight = 0;
+        double weightAchieved = 0;
+        for (CourseCategory category : course.getCategories()) {
+            possibleWeight += category.getCatWeight();
+            double scoreSum = 0;
+            List<TreeItem<AssignmentTableRecord>> assignmentRecords = new ArrayList<>();
+            for (CourseAssignment assignment : course.getAssignments()) {
+                if (assignment.getCatId() == category.getCatId()) {
+                    scoreSum += assignment.getPointsNumerator()/assignment.getPointsDenominator()*assignment.getAWeight();
+                    assignmentRecords.add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(assignment.getPointsNumerator() / assignment.getPointsDenominator() * 100.0), nf.format(assignment.getAWeight()))));
+                }
+            }
+            weightAchieved += scoreSum*category.getCatWeight()/100.0;
+            TreeItem<AssignmentTableRecord> categoryRow = new TreeItem<>(new AssignmentTableRecord(category.getCatName(), nf.format(scoreSum), nf.format(category.getCatWeight())));
+            categoryRow.getChildren().addAll(assignmentRecords);
+            rootRow.getChildren().add(categoryRow);
+            categoryRow.setExpanded(true);
+        }
+        for (CourseAssignment assignment : course.getAssignments()) {
+            if (assignment.getCatId() == 0) {
+                double score = assignment.getPointsNumerator() / assignment.getPointsDenominator() * 100.0;
+                rootRow.getChildren().add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(score), nf.format(assignment.getAWeight()))));
+                possibleWeight += assignment.getAWeight();
+                weightAchieved += score*assignment.getAWeight()/100.0;
+            }
+        }
+        assignmentTreeTableView.setRoot(rootRow);
+        totalWeightAchievedText.setText(nf.format(weightAchieved)+"/"+nf.format(possibleWeight));
+        gradeNeededAplusText.setText(nf.format((course.getAplusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededAText.setText(nf.format((course.getAGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededAminusText.setText(nf.format((course.getAminusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededBplusText.setText(nf.format((course.getBplusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededBText.setText(nf.format((course.getBGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededBminusText.setText(nf.format((course.getBminusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededCplusText.setText(nf.format((course.getCplusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededCText.setText(nf.format((course.getCGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededDText.setText(nf.format((course.getDGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+    }
+
     @FXML
     private void ReturnPressed() {
         Main.returnToCourseSelect();
+    }
+
+    public static class AssignmentTableRecord {
+
+        private final SimpleStringProperty name;
+        private final SimpleStringProperty score;
+        private final SimpleStringProperty weight;
+
+        public AssignmentTableRecord(String name, String score, String weight) {
+            this.name = new SimpleStringProperty(name);
+            this.score = new SimpleStringProperty(score);
+            this.weight = new SimpleStringProperty(weight);
+        }
+
+        public SimpleStringProperty nameProperty() {
+            return name;
+        }
+
+        public SimpleStringProperty scoreProperty() {
+            return score;
+        }
+
+        public SimpleStringProperty weightProperty() {
+            return weight;
+        }
     }
 }
