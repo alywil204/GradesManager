@@ -32,7 +32,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Grades Manager!" />
             <ListView fx:id="profileListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
             <Label text="Select a profile:" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" onAction="#SelectProfile" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#SelectProfilePressed" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Create a new profile:" GridPane.columnSpan="2147483647" GridPane.rowIndex="6" />
             <TextField fx:id="newProfileNameField" GridPane.rowIndex="7" />
             <Button mnemonicParsing="false" onAction="#CreatePressed" text="Create" GridPane.columnIndex="1" GridPane.rowIndex="7" />

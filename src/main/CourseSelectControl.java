@@ -2,7 +2,6 @@ package main;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
@@ -26,6 +25,11 @@ public class CourseSelectControl {
 
     @FXML
     private void initialize() {
+        courseNameList.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                selectCourse();
+            }
+        });
         profileText.setText("Profile: " + profile.getPName());
         List<String> courses = Database.getProfileCourseList(profile.getPId());
         if (courses != null) {
@@ -38,7 +42,7 @@ public class CourseSelectControl {
     }
 
     @FXML
-    private void SelectCourse(ActionEvent event) {
+    private void selectCourse() {
         String selected = courseNameList.getSelectionModel().getSelectedItem();
         if (selected == null) {
             errorText.setText("Please select a course to open");
@@ -52,7 +56,12 @@ public class CourseSelectControl {
     }
 
     @FXML
-    public void CreateCourse(ActionEvent event) {
+    private void SelectCourse() {
+        selectCourse();
+    }
+
+    @FXML
+    private void CreateCourse() {
         Main.createCourseUseCase();
     }
 

@@ -2,7 +2,6 @@ package main;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -24,6 +23,11 @@ public class ProfileSelectControl {
 
     @FXML
     private void initialize() {
+        profileListView.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                selectProfile();
+            }
+        });
         updateProfileList();
     }
 
@@ -38,8 +42,7 @@ public class ProfileSelectControl {
         profileListView.setItems(observableProfileList);
     }
 
-    @FXML
-    public void SelectProfile(ActionEvent event) {
+    private void selectProfile() {
         Profile selected = profileListView.getSelectionModel().getSelectedItem();
         if (selected == null) {
             selectProfileErrorText.setText("Please select a profile to open");
@@ -49,7 +52,12 @@ public class ProfileSelectControl {
     }
 
     @FXML
-    public void CreatePressed(ActionEvent event) {
+    private void SelectProfilePressed() {
+        selectProfile();
+    }
+
+    @FXML
+    private void CreatePressed() {
         newProfileNameField.setText(newProfileNameField.getText().trim());
         String newPName = newProfileNameField.getText();
         if (newPName.isBlank()) {
