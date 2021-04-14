@@ -1,7 +1,6 @@
 package main;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -37,6 +36,12 @@ public class CourseControl {
     private Text CText;
     @FXML
     private Text DText;
+    @FXML
+    private TabPane editPane;
+    @FXML
+    private Tab editCategoryTab;
+    @FXML
+    private Tab editAssignmentTab;
     @FXML
     private ChoiceBox<CourseCategory> categoryChoiceBox;
     @FXML
@@ -256,7 +261,7 @@ public class CourseControl {
     }
 
     @FXML
-    private void SaveAssignment(ActionEvent event) {
+    private void SaveAssignment() {
         CourseAssignment as = assignmentChoiceBox.getValue();
         assignmentNameField.setText(assignmentNameField.getText().trim());
         String name = assignmentNameField.getText();
@@ -292,7 +297,7 @@ public class CourseControl {
     }
 
     @FXML
-    private void SaveCategory(ActionEvent event) {
+    private void SaveCategory() {
         saveCategoryErrorText.setText("");
         CourseCategory cat = categoryChoiceBox.getValue();
         categoryNameField.setText(categoryNameField.getText().trim());
@@ -318,7 +323,7 @@ public class CourseControl {
     }
 
     @FXML
-    private void DeleteAssignmentPressed(ActionEvent event) {
+    private void DeleteAssignmentPressed() {
         deleteAssignment(assignmentChoiceBox.getValue().getAId());
         reloadCourseChange();
     }
@@ -328,7 +333,7 @@ public class CourseControl {
     }
 
     @FXML
-    private void DeleteCategory(ActionEvent event) {
+    private void DeleteCategory() {
         saveCategoryErrorText.setText("");
         CourseCategory cat = categoryChoiceBox.getValue();
         try {
@@ -364,7 +369,7 @@ public class CourseControl {
     }
 
     private void showResults() {
-        TreeItem<AssignmentTableRecord> rootRow = new TreeItem<>(new AssignmentTableRecord("Root", "", ""));
+        TreeItem<AssignmentTableRecord> rootRow = new TreeItem<>(new AssignmentTableRecord("Root", "", "", false));
 
         double possibleWeight = 0;
         double weightAchieved = 0;
@@ -377,12 +382,13 @@ public class CourseControl {
 
             for (CourseAssignment assignment : course.getAssignments()) {
                 if (assignment.getCatId() == category.getCatId()) {
-                    assignmentRecords.add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(assignment.getScore() * 100.0), nf.format(assignment.getAWeight()))));
+                    TreeItem<AssignmentTableRecord> assignmentRow = new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(assignment.getScore() * 100.0), nf.format(assignment.getAWeight()), false));
+                    assignmentRecords.add(assignmentRow);
 
                     catScore += assignment.getScore()*assignment.getAWeight()/100.0;
                 }
             }
-            TreeItem<AssignmentTableRecord> categoryRow = new TreeItem<>(new AssignmentTableRecord(category.getCatName(), nf.format(catScore*100.0), nf.format(category.getCatWeight())));
+            TreeItem<AssignmentTableRecord> categoryRow = new TreeItem<>(new AssignmentTableRecord(category.getCatName(), nf.format(catScore*100.0), nf.format(category.getCatWeight()), true));
             categoryRow.getChildren().addAll(assignmentRecords);
             rootRow.getChildren().add(categoryRow);
 
@@ -391,13 +397,34 @@ public class CourseControl {
         }
         for (CourseAssignment assignment : course.getAssignments()) {
             if (assignment.getCatId() == 0) {
-                rootRow.getChildren().add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(assignment.getScore()*100.0), nf.format(assignment.getAWeight()))));
+                rootRow.getChildren().add(new TreeItem<>(new AssignmentTableRecord(assignment.getAName(), nf.format(assignment.getScore()*100.0), nf.format(assignment.getAWeight()), false)));
 
                 possibleWeight += assignment.getAWeight();
                 weightAchieved += assignment.getScore()*assignment.getAWeight();
             }
         }
         assignmentTreeTableView.setRoot(rootRow);
+        assignmentTreeTableView.setOnMouseClicked(mouseEvent -> {
+            AssignmentTableRecord selection = assignmentTreeTableView.getSelectionModel().getSelectedItem().getValue();
+            if (selection.isCategory()) {
+                editPane.getSelectionModel().select(editCategoryTab);
+                for (CourseCategory category : categoryChoiceBox.getItems()) {
+                    if (category.getCatName().equals(selection.nameProperty().get())) {
+                        categoryChoiceBox.setValue(category);
+                        break;
+                    }
+                }
+            }
+            else {
+                editPane.getSelectionModel().select(editAssignmentTab);
+                for (CourseAssignment assignment: assignmentChoiceBox.getItems()) {
+                    if (assignment.getAName().equals(selection.nameProperty().get())) {
+                        assignmentChoiceBox.setValue(assignment);
+                        break;
+                    }
+                }
+            }
+        });
 
         double examWeight = 100 - possibleWeight;
         totalWeightAchievedText.setText(nf.format(weightAchieved)+"/"+nf.format(possibleWeight));
@@ -426,11 +453,13 @@ public class CourseControl {
         private final SimpleStringProperty name;
         private final SimpleStringProperty score;
         private final SimpleStringProperty weight;
+        private final boolean category;
 
-        public AssignmentTableRecord(String name, String score, String weight) {
+        public AssignmentTableRecord(String name, String score, String weight, boolean isCategory) {
             this.name = new SimpleStringProperty(name);
             this.score = new SimpleStringProperty(score);
             this.weight = new SimpleStringProperty(weight);
+            this.category = isCategory;
         }
 
         public SimpleStringProperty nameProperty() {
@@ -443,6 +472,10 @@ public class CourseControl {
 
         public SimpleStringProperty weightProperty() {
             return weight;
+        }
+
+        public boolean isCategory() {
+            return category;
         }
     }
 }
