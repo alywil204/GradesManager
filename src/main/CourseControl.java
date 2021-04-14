@@ -394,15 +394,15 @@ public class CourseControl {
         }
         assignmentTreeTableView.setRoot(rootRow);
         totalWeightAchievedText.setText(nf.format(weightAchieved)+"/"+nf.format(possibleWeight));
-        gradeNeededAplusText.setText(nf.format((course.getAplusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
-        gradeNeededAText.setText(nf.format((course.getAGrade()-weightAchieved)/(100-possibleWeight)*100.0));
-        gradeNeededAminusText.setText(nf.format((course.getAminusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
-        gradeNeededBplusText.setText(nf.format((course.getBplusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
-        gradeNeededBText.setText(nf.format((course.getBGrade()-weightAchieved)/(100-possibleWeight)*100.0));
-        gradeNeededBminusText.setText(nf.format((course.getBminusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
-        gradeNeededCplusText.setText(nf.format((course.getCplusGrade()-weightAchieved)/(100-possibleWeight)*100.0));
-        gradeNeededCText.setText(nf.format((course.getCGrade()-weightAchieved)/(100-possibleWeight)*100.0));
-        gradeNeededDText.setText(nf.format((course.getDGrade()-weightAchieved)/(100-possibleWeight)*100.0));
+        gradeNeededAplusText.setText(nf.format(Math.max(0, (course.getAplusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededAText.setText(nf.format(Math.max(0,(course.getAGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededAminusText.setText(nf.format(Math.max(0,(course.getAminusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededBplusText.setText(nf.format(Math.max(0,(course.getBplusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededBText.setText(nf.format(Math.max(0,(course.getBGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededBminusText.setText(nf.format(Math.max(0,(course.getBminusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededCplusText.setText(nf.format(Math.max(0,(course.getCplusGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededCText.setText(nf.format(Math.max(0,(course.getCGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
+        gradeNeededDText.setText(nf.format(Math.max(0,(course.getDGrade()-weightAchieved)/(100-possibleWeight)*100.0)));
     }
 
     @FXML
