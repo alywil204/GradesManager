@@ -48,15 +48,15 @@ public class CourseCreateControl {
 
                 return new TableCell<>() {
 
-                    private final Spinner<Double> limitSpinner;
+                    private final EditableSpinner limitSpinner;
 
                     private final SpinnerValueFactory.DoubleSpinnerValueFactory valueFactory;
                     private final ChangeListener<Number> valueChangeListener;
 
                     {
+                        limitSpinner = new EditableSpinner();
                         valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 100);
-                        limitSpinner = new Spinner<>(valueFactory);
-                        limitSpinner.setEditable(true);
+                        limitSpinner.setValueFactory(valueFactory);
                         limitSpinner.setVisible(false);
                         setGraphic(limitSpinner);
                         valueChangeListener = (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> valueFactory.setValue(newValue.doubleValue());
@@ -66,24 +66,6 @@ public class CourseCreateControl {
                                 getItem().setLimit(newValue);
                             }
                         });
-                    }
-
-                    private void adjustValue(GradeLimit gradeLimit) {
-                        String newVal = limitSpinner.getEditor().getText().trim();
-                        try {
-                            double newDouble = Double.parseDouble(newVal);
-                            if (newDouble < 0) {
-                                limitSpinner.getEditor().setText("0");
-                            }
-                            else if (newDouble > 100) {
-                                limitSpinner.getEditor().setText("100");
-                            }
-                            else {
-                                limitSpinner.getEditor().setText(newVal);
-                            }
-                        } catch (NumberFormatException e) {
-                            limitSpinner.getEditor().setText(nf.format(gradeLimit.getLimit()));
-                        }
                     }
 
                     @Override
@@ -102,12 +84,6 @@ public class CourseCreateControl {
                         } else {
                             valueFactory.setValue(gradeLimit.getLimit());
                             gradeLimit.limitProperty().addListener(valueChangeListener);
-                            limitSpinner.getEditor().setOnAction(actionEvent -> adjustValue(gradeLimit));
-                            limitSpinner.getEditor().focusedProperty().addListener((observableValue, aBoolean, t1) -> {
-                                if (!t1) {
-                                    adjustValue(gradeLimit);
-                                }
-                            });
                             limitSpinner.setVisible(true);
                         }
 

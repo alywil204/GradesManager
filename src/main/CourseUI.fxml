@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -16,6 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
+<?import main.EditableSpinner?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CourseControl">
    <children>
       <GridPane layoutX="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
@@ -109,7 +109,7 @@
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" GridPane.columnIndex="2" GridPane.valignment="BOTTOM" />
                                     <ChoiceBox fx:id="categoryChoiceBox" prefWidth="150.0" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                    <Spinner fx:id="categoryWeightSpinner" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                    <EditableSpinner fx:id="categoryWeightSpinner" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                                     <Button mnemonicParsing="false" onAction="#SaveCategory" text="Save" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="TOP" />
                                     <Button fx:id="catDeleteButton" mnemonicParsing="false" onAction="#DeleteCategory" text="Delete" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
                                        <GridPane.margin>
@@ -161,9 +161,9 @@
                                     <ChoiceBox fx:id="assignmentChoiceBox" prefWidth="150.0" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                                     <ChoiceBox fx:id="assignmentCategoryChoiceBox" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                                     <TextField fx:id="assignmentNameField" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-                                    <Spinner fx:id="assignmentWeightSpinner" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-                                    <Spinner fx:id="pointsAwardedSpinner" GridPane.rowIndex="5" GridPane.valignment="TOP" />
-                                    <Spinner fx:id="pointsWorthSpinner" GridPane.rowIndex="7" GridPane.valignment="TOP" />
+                                    <EditableSpinner fx:id="assignmentWeightSpinner" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+                                    <EditableSpinner fx:id="pointsAwardedSpinner" GridPane.rowIndex="5" GridPane.valignment="TOP" />
+                                    <EditableSpinner fx:id="pointsWorthSpinner" GridPane.rowIndex="7" GridPane.valignment="TOP" />
                                     <Text fx:id="saveAssignmentErrorText" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                                     <Button fx:id="aDeleteButton" mnemonicParsing="false" onAction="#DeleteAssignmentPressed" text="Delete" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
                                        <GridPane.margin>

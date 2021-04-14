@@ -42,7 +42,7 @@ public class CourseControl {
     @FXML
     private TextField categoryNameField;
     @FXML
-    private Spinner<Double> categoryWeightSpinner;
+    private EditableSpinner categoryWeightSpinner;
     @FXML
     private Button catDeleteButton;
     @FXML
@@ -56,11 +56,11 @@ public class CourseControl {
     @FXML
     private TextField assignmentNameField;
     @FXML
-    private Spinner<Double> pointsAwardedSpinner;
+    private EditableSpinner pointsAwardedSpinner;
     @FXML
-    private Spinner<Double> pointsWorthSpinner;
+    private EditableSpinner pointsWorthSpinner;
     @FXML
-    private Spinner<Double> assignmentWeightSpinner;
+    private EditableSpinner assignmentWeightSpinner;
     @FXML
     private Button aDeleteButton;
     @FXML
